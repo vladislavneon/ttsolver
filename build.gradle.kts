@@ -20,6 +20,8 @@ dependencies {
     compile("io.ktor", "ktor-jackson", "0.9.2")
     compile("io.ktor", "ktor-locations", "0.9.2")
     compile("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.6.11")
+    compile("org.primefaces", "primefaces", "6.0")
+
 
     compile(kotlin("stdlib-jdk8"))
 }
