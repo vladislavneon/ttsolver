@@ -4,33 +4,39 @@ import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.features.CORS
 import io.ktor.features.DefaultHeaders
-import io.ktor.http.ContentType
+import io.ktor.http.content.resource
+import io.ktor.http.content.static
 import io.ktor.locations.Locations
-import io.ktor.response.respondText
+import io.ktor.response.respondRedirect
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
-import kotlinx.html.html
-import org.csc.html.indexHtml
+import io.ktor.sessions.Sessions
+import io.ktor.sessions.cookie
+import org.csc.session.SessionManager
+import org.csc.session.UserSession
+import org.csc.wizard.wizardRouting
 
 object WebServer {
-    var i = 0
-
-    fun prepare(): NettyApplicationEngine = embeddedServer(Netty, 8080) {
+    fun prepare(): NettyApplicationEngine = embeddedServer(Netty, 8081) {
         install(DefaultHeaders)
         install(Locations)
         install(CORS) { anyHost() }
+        install(Sessions) {
+            cookie<UserSession>(SessionManager.sessionCookie)
+        }
         routing {
-            get("/") {
-                call.respondText(contentType = ContentType.parse("text/html")) {
-                    html {
-
-                    }
-                    indexHtml(i++)
-                }
+            static {
+                resource("wizard.css", "/css/wizard.css")
+                resource("wizard.js", "/js/wizard.js")
             }
+            wizardRouting()
+            get("/") {
+                call.respondRedirect("/wizard")
+            }
+
         }
     }
 }

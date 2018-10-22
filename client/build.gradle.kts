@@ -19,13 +19,15 @@ repositories {
 }
 
 dependencies {
-    compile("io.ktor", "ktor-server-netty", "0.9.2")
-    compile("io.ktor", "ktor-jackson", "0.9.2")
-    compile("io.ktor", "ktor-locations", "0.9.2")
-    compile(files("libs/kootstrap.jar"))
-    compile(files("libs/kotlinx.html.jar"))
+    compile("org.slf4j", "slf4j-log4j12", "1.7.25")
+    compile("log4j", "log4j", "1.2.17")
+
     compile(files("libs/AspriseJavaPDF.jar"))
 
+    compile("io.ktor", "ktor-server-netty", "0.9.5")
+    compile("io.ktor", "ktor-jackson", "0.9.5")
+    compile("io.ktor", "ktor-locations", "0.9.5")
+    compile("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.6.11")
 
     compile(kotlin("stdlib-jdk8"))
 }
