@@ -6,7 +6,6 @@ import org.apache.pdfbox.pdfparser.PDFParser
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.text.PDFTextStripper
 import java.io.File
-import java.nio.ByteBuffer
 
 object PdfBoxRecognizer : PDFRecognizer {
     override fun recognize(file: File): String {

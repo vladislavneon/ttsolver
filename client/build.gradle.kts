@@ -41,7 +41,7 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-idea  {
+idea {
     module {
         excludeDirs = setOf(file(".idea"), file("gradle"), file(".gradle"))
     }
