@@ -13,6 +13,7 @@ import org.csc.html.bootstrapLinks
 import org.csc.html.getFile
 import org.csc.html.html
 import org.csc.html.navbar
+import org.csc.pdf.PdfBoxRecognizer
 import org.csc.session.FileManager
 import org.csc.session.SessionManager
 
@@ -40,13 +41,14 @@ fun Routing.wizardRouting() {
     }
     post("/wizard/uploadPDF") {
         val session = SessionManager.getSession(call)
-        FileManager.createFile(session.uuid, session.curStep.fileName, call.getFile("pdf"))
+        val fileLocal = FileManager.createPdfRawFile(session.uuid, call.getFile("pdf"))
+        FileManager.createPdfTextFile(session.uuid, PdfBoxRecognizer.recognize(fileLocal).toByteArray())
         SessionManager.changeStep(call, session, WizardStep.UploadTests)
         call.respondRedirect("/wizard")
     }
     post("/wizard/uploadTest") {
         val session = SessionManager.getSession(call)
-        FileManager.createFile(session.uuid, session.curStep.fileName, call.getFile("json"))
+        FileManager.createJsonFile(session.uuid,call.getFile("json"))
         SessionManager.changeStep(call, session, WizardStep.Completed)
         call.respondRedirect("/wizard")
     }

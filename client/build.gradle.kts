@@ -23,6 +23,7 @@ dependencies {
     compile("log4j", "log4j", "1.2.17")
 
     compile(files("libs/AspriseJavaPDF.jar"))
+    compile("org.apache.pdfbox", "pdfbox", "2.0.12")
 
     compile("io.ktor", "ktor-server-netty", "0.9.5")
     compile("io.ktor", "ktor-jackson", "0.9.5")
@@ -42,7 +43,7 @@ tasks.withType<KotlinCompile> {
 
 idea  {
     module {
-        excludeDirs = setOf(file(".idea"), file("gradle"))
+        excludeDirs = setOf(file(".idea"), file("gradle"), file(".gradle"))
     }
 }
 
