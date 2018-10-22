@@ -12,8 +12,12 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
+import kotlinx.html.html
+import org.csc.html.indexHtml
 
 object WebServer {
+    var i = 0
+
     fun prepare(): NettyApplicationEngine = embeddedServer(Netty, 8080) {
         install(DefaultHeaders)
         install(Locations)
@@ -21,7 +25,10 @@ object WebServer {
         routing {
             get("/") {
                 call.respondText(contentType = ContentType.parse("text/html")) {
-                    Resources.getText("index.xhtml")
+                    html {
+
+                    }
+                    indexHtml(i++)
                 }
             }
         }

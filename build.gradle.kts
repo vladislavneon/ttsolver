@@ -11,6 +11,9 @@ plugins {
 
 repositories {
     jcenter()
+    flatDir {
+        dir("libs")
+    }
     maven { setUrl("https://kotlin.bintray.com/ktor") }
     maven { setUrl("https://kotlin.bintray.com/kotlinx") }
 }
@@ -19,8 +22,8 @@ dependencies {
     compile("io.ktor", "ktor-server-netty", "0.9.2")
     compile("io.ktor", "ktor-jackson", "0.9.2")
     compile("io.ktor", "ktor-locations", "0.9.2")
-    compile("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.6.11")
-    compile("org.primefaces", "primefaces", "6.0")
+    compile(files("libs/kootstrap.jar"))
+    compile(files("libs/kotlinx.html.jar"))
 
 
     compile(kotlin("stdlib-jdk8"))
