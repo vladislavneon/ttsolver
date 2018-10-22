@@ -3,6 +3,8 @@ git# Created by .ignore support plugin (hsz.mobi)
 .gradle
 /build/
 
+venv
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
