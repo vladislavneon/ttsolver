@@ -24,6 +24,7 @@ dependencies {
     compile("io.ktor", "ktor-locations", "0.9.2")
     compile(files("libs/kootstrap.jar"))
     compile(files("libs/kotlinx.html.jar"))
+    compile(files("libs/AspriseJavaPDF.jar"))
 
 
     compile(kotlin("stdlib-jdk8"))
