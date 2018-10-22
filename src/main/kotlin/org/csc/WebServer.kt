@@ -12,10 +12,6 @@ import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
 import io.ktor.server.netty.Netty
 import io.ktor.server.netty.NettyApplicationEngine
-import kotlinx.html.a
-import kotlinx.html.body
-import kotlinx.html.html
-import kotlinx.html.stream.createHTML
 
 object WebServer {
     fun prepare(): NettyApplicationEngine = embeddedServer(Netty, 8080) {
@@ -25,16 +21,7 @@ object WebServer {
         routing {
             get("/") {
                 call.respondText(contentType = ContentType.parse("text/html")) {
-
-                    createHTML().apply {
-                        html {
-                            body {
-                                a(href = "123") {
-                                    +"My link"
-                                }
-                            }
-                        }
-                    }.finalize()
+                    Resources.getText("index.xhtml")
                 }
             }
         }
