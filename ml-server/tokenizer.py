@@ -2,7 +2,7 @@ import re
 import json
 
 
-def get_tokenized_text(text):
+def tokenize_text(text):
     text = text.split(sep='\n')
     text_with_lines = []
     for i, line in enumerate(text):
@@ -30,15 +30,15 @@ def get_tokenized_text(text):
 def get_tokenized_text_from_file(filename):
     with open('ml-server/test_data/' + filename, 'r') as inf:
         text = ''.join(inf.readlines())
-    return get_tokenized_text(text)
+    return tokenize_text(text)
 
-
-print(get_tokenized_text_from_file('text4.txt'))
-
-
-def export_test_questions(filename):
-    with open('ml-server/test_data/' + filename + '.json', 'r') as inf, \
-         open('ml-server/test_data/' + filename + '_qo.txt', 'w') as ouf:
-        j = json.load(inf)
-        for q in j:
-            ouf.write(q["question"] + '\n')
+def tokenize_string(qa):
+    splitted_question = qa.strip().split()
+    tokenized_question = []
+    for token in splitted_question:
+        token = token.lower()
+        token = re.sub(r'\W', '', token)
+        if not token:
+            continue
+        tokenized_question.append(token)
+    return tokenized_question

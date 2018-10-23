@@ -1,11 +1,11 @@
 from model import Answer, AnswerVerdict
-from tokenizer import get_tokenized_text
+from tokenizer import tokenize_text
 import random
 
 def solve(questions, text):
     random.seed()
 
-    tokenized_text = get_tokenized_text(text)
+    tokenized_text = tokenize_text(text)
     max_line = tokenized_text[-1][1]
 
     answer = []
