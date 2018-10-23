@@ -17,6 +17,6 @@ object PdfBoxRecognizer : PDFRecognizer {
     override fun recognize(content: ByteArray): String {
         val parser = PDFParser(RandomAccessBuffer(content))
         parser.parse()
-        return PDFTextStripper().getText(PDDocument(parser.document))
+        return PDDocument(parser.document).use { PDFTextStripper().getText(it) }
     }
 }
