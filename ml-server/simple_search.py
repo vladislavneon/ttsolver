@@ -1,6 +1,9 @@
 import operator
+from tokenizer import get_tokenized_text_from_file, tokenize_string
+from normalizer import normalize_text, normalize_string
 
-chunk_size = 100
+chunk_size = 10
+multichoice_recall_threshold = 0.8
 
 def count_recall(text_fragment, goal):
     n = len(goal)
@@ -21,3 +24,30 @@ def find_best_recall(text_with_lines, question, answer):
             best_recall = recall
             best_line_number = line_number
     return (best_recall, best_line_number)
+
+
+def find_best_single_choice(text_with_lines, question, answers):
+    best_recalls = [find_best_recall(text_with_lines, question, answer) for answer in answers]
+    best_recalls = [(br[0], br[1], i) for i, br in enumerate(best_recalls)]
+    return sorted(best_recalls, reverse=True)[0]
+    #return best_recalls
+
+
+def find_best_multi_choice(text_with_lines, question, answers):
+    best_recalls = [find_best_recall(text_with_lines, question, answer) for answer in answers]
+    best_recalls = [(br[0], br[1], i) for i, br in enumerate(best_recalls)]
+    return list(filter(lambda x: x[0] > multichoice_recall_threshold, best_recalls))
+
+text_with_lines = normalize_text(get_tokenized_text_from_file('text2.txt'))
+#print(text_with_lines)
+question = normalize_string(tokenize_string('Основатель йоги?'))
+print(question)
+answer2 = normalize_string(tokenize_string('Патанджали'))
+answer1 = normalize_string(tokenize_string('Ганди'))
+answer3 = normalize_string(tokenize_string('Конфуций'))
+answers = [answer1, answer2, answer3]
+print(answers)
+print(find_best_single_choice(text_with_lines, question, answers))
+print(find_best_multi_choice(text_with_lines, question, answers))
+#print(len(text_with_lines))
+#print(find_best_recall(text_with_lines[:2000], question, answer))
