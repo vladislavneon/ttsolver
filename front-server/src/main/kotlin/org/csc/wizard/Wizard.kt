@@ -38,7 +38,7 @@ fun Routing.wizardRouting() {
 
             body {
                 ttsNavbar()
-                wizardSteps(session.curStep)
+                wizardSteps(session, session.curStep)
             }
         }
     }
@@ -53,7 +53,7 @@ fun Routing.wizardRouting() {
         val session = SessionManager.getSession(call)
         FileManager.createJsonFile(session.uuid, call.getFile("json"))
         SessionManager.changeStep(call, session, WizardStep.Completed)
-        call.respondRedirect("/wizard")
+        call.respondRedirect("/wizard/result")
     }
     get("/wizard/result") {
         val session = SessionManager.getSession(call)
@@ -63,6 +63,6 @@ fun Routing.wizardRouting() {
         FileManager.createResultFile(session.uuid,
                 Json.writeValueAsString(MlSolver.solve(text, questions)).toByteArray()
         )
-        call.respondFile(FileManager.getResultFile(session.uuid))
+        call.respondRedirect("/wizard")
     }
 }

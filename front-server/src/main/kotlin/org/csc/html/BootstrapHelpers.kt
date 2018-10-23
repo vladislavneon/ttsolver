@@ -27,13 +27,13 @@ fun BODY.navbar(label: String, vararg buttons: NAV.() -> Unit) {
     }
 }
 
-fun BODY.container(body: DIV.() -> Unit) {
+fun FlowContent.container(body: DIV.() -> Unit) {
     div("container") {
         body()
     }
 }
 
-fun DIV.row(body: DIV.() -> Unit) {
+fun FlowContent.row(body: DIV.() -> Unit) {
     div("row") {
         body()
     }

@@ -1,7 +1,14 @@
 package org.csc.wizard
 
+import io.ktor.application.ApplicationCall
 import kotlinx.html.*
 import org.csc.html.*
+import org.csc.ml.Answer
+import org.csc.ml.Question
+import org.csc.session.FileManager
+import org.csc.session.UserSession
+import org.csc.utils.Json
+import kotlin.reflect.KClass
 
 fun UL.stepHeader(label: String, shortLabel: String, iconName: String, stepNum: Int, isActive: Boolean) {
     li {
@@ -42,7 +49,7 @@ fun DIV.stepBody(label: String, isActive: Boolean, content: DIV.() -> Unit, butt
     }
 }
 
-fun BODY.wizardSteps(step: WizardStep) {
+fun BODY.wizardSteps(session: UserSession, step: WizardStep) {
     container {
         row {
             section {
@@ -88,11 +95,67 @@ fun BODY.wizardSteps(step: WizardStep) {
                             }
                         }
                         WizardStep.Completed -> {
-                            stepBody("Download result", step.ordinal == 2, { br() }, {
-                                downloadButton("Download", "/wizard/result")
+                            stepBody("Results", step.ordinal == 2, { br() }, {
+//                                downloadButton("Download", "/wizard/result")
+                                val answers = Json.readCollectionValue(FileManager.getResultFile(session.uuid).readText(),
+                                        List::class as KClass<List<Answer>>, Answer::class)
+                                val questions = Json.readCollectionValue(FileManager.getJsonFile(session.uuid).readText(),
+                                        List::class as KClass<List<Question>>, Question::class)
+                                val text = FileManager.getPdfTextFile(session.uuid).readText()
+                                answers(answers, questions, text)
                             })
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+fun FlowContent.answers(answers: List<Answer>, question: List<Question>, text: String) {
+
+    val textSplitted = text.split("\n")
+    container {
+        section {
+            for ((ind, answer) in answers.withIndex()) {
+                row {
+                    div("col-md-10") {
+                        div("article") {
+                            h3 {
+                                +"Question ${ind + 1}"
+                            }
+                            div("article-content") {
+                                p {
+                                    +"Question: "
+                                    +answer.question
+                                }
+                                p {
+                                    +"Answer: "
+                                }
+                                ul {
+                                    for ((indA, txt) in answer.answers.withIndex()) {
+                                        if (txt == "1") {
+                                            li {
+                                                +question[ind].options[indA]
+                                            }
+                                        }
+                                    }
+                                }
+
+                                if (textSplitted.size > answer.answer_area && answer.answer_area != 0 &&
+                                        textSplitted[answer.answer_area].isNotBlank()) {
+                                    p {
+                                        +"Because of: "
+                                    }
+                                    blockQuote("hero") {
+                                        +textSplitted[answer.answer_area]
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
                 }
             }
         }
