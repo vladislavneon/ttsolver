@@ -1,5 +1,4 @@
 import re
-import operator
 import json
 
 def get_tokenized_text(text):
@@ -26,19 +25,17 @@ def get_tokenized_text(text):
         text_words_only.append((word.lower(), line_number))
     return text_words_only
 
-with open('ml-server/test_data/text4.txt', 'r') as inf:
-    text = ''.join(inf.readlines())
+def get_tokenized_text_from_file(filename):
+    with open('ml-server/test_data/' + filename, 'r') as inf:
+        text = ''.join(inf.readlines())
+    return get_tokenized_text(text)
+
+print(get_tokenized_text_from_file('text4.txt'))
 
 
-'''
-
-with open('ml-server/test_data/4_tests.json', 'r') as inf, \
-     open('ml-server/test_data/4_tests_qo.txt', 'w') as ouf:
-    j = json.load(inf)
-    for q in j:
-        ouf.write(q["question"] + '\n')
-'''
-
-tokenized_text = get_tokenized_text(text)
-max_line = tokenized_text[-1][1]
-print(max_line)
+def export_test_questions(filename):
+    with open('ml-server/test_data/' + filename + '.json', 'r') as inf, \
+         open('ml-server/test_data/' + filename + '_qo.txt', 'w') as ouf:
+        j = json.load(inf)
+        for q in j:
+            ouf.write(q["question"] + '\n')
