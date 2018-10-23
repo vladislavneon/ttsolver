@@ -16,10 +16,13 @@ fun SPAN.icon(name: String) {
     i("glyphicon glyphicon-$name")
 }
 
-fun BODY.navbar(label: String) {
+fun BODY.navbar(label: String, vararg buttons: NAV.() -> Unit) {
     return nav("navbar navbar-light bg-light") {
         a(href = "#", classes = "navbar-brand") {
             +label
+        }
+        for (button in buttons) {
+            button()
         }
     }
 }

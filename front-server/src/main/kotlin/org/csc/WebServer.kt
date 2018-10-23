@@ -17,6 +17,7 @@ import io.ktor.sessions.Sessions
 import io.ktor.sessions.cookie
 import org.csc.session.SessionManager
 import org.csc.session.UserSession
+import org.csc.wizard.WizardStep
 import org.csc.wizard.wizardRouting
 
 object WebServer {
@@ -25,7 +26,9 @@ object WebServer {
         install(Locations)
         install(CORS) { anyHost() }
         install(Sessions) {
-            cookie<UserSession>(SessionManager.sessionCookie)
+            cookie<UserSession>(SessionManager.sessionCookie) {
+                cookie.path = "/"
+            }
         }
         routing {
             static {
@@ -34,6 +37,12 @@ object WebServer {
             }
             wizardRouting()
             get("/") {
+                call.respondRedirect("/wizard")
+            }
+            get("/reset") {
+                SessionManager.resetSession(call)
+                SessionManager.changeStep(call, SessionManager.getSession(call), WizardStep.UploadPDF)
+
                 call.respondRedirect("/wizard")
             }
         }

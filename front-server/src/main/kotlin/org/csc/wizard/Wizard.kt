@@ -11,10 +11,7 @@ import kotlinx.html.head
 import kotlinx.html.script
 import kotlinx.html.styleLink
 import kotlinx.io.core.toByteArray
-import org.csc.html.bootstrapLinks
-import org.csc.html.getFile
-import org.csc.html.html
-import org.csc.html.navbar
+import org.csc.html.*
 import org.csc.ml.MlSolver
 import org.csc.ml.Question
 import org.csc.pdf.PDFRecognizer
@@ -40,7 +37,7 @@ fun Routing.wizardRouting() {
             }
 
             body {
-                navbar("TT Solver")
+                ttsNavbar()
                 wizardSteps(session.curStep)
             }
         }

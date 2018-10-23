@@ -25,4 +25,13 @@ object SessionManager {
         call.sessions.set(UserSession(session.uuid, step))
     }
 
+    fun resetSession(call: ApplicationCall) {
+        val session = getSession(call)
+        call.sessions.set(UserSession(session.uuid, WizardStep.UploadPDF))
+        FileManager.removePdfRawFile(session.uuid)
+        FileManager.removePdfTextFile(session.uuid)
+        FileManager.removeJsonFile(session.uuid)
+        FileManager.removeResultFile(session.uuid)
+    }
+
 }
