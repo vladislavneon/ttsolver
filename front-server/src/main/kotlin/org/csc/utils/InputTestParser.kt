@@ -31,7 +31,7 @@ object InputTestParser {
                     questionType = QuestionType.multi
                     options.add(line.substring(1).trim())
                 }
-                else -> throw IllegalArgumentException("Тестовые данные введены в некорректном формате")
+                else -> {}
             }
         }
         result.add(Question(questionText!!, questionType!!, ArrayList(options)))
