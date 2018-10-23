@@ -6,10 +6,7 @@ import io.ktor.response.respondRedirect
 import io.ktor.routing.Routing
 import io.ktor.routing.get
 import io.ktor.routing.post
-import kotlinx.html.body
-import kotlinx.html.head
-import kotlinx.html.script
-import kotlinx.html.styleLink
+import kotlinx.html.*
 import kotlinx.io.core.toByteArray
 import org.csc.html.*
 import org.csc.ml.MlSolver
@@ -30,6 +27,10 @@ fun Routing.wizardRouting() {
     get("/wizard") {
         val session = SessionManager.getSession(call)
         html {
+            title {
+                +"TT Solver"
+            }
+
             head {
                 bootstrapLinks()
                 styleLink("wizard.css")
