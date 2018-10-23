@@ -46,6 +46,7 @@ def find_best_multi_choice(text_with_lines, question, answers):
     best_recalls = [(br[0], br[1], i) for i, br in enumerate(best_recalls)]
     return list(filter(lambda x: x[0] > multichoice_recall_threshold, best_recalls))
 
+
 '''
 text_with_lines = normalize_text(get_tokenized_text_from_file('text2.txt'))
 #print(text_with_lines)
