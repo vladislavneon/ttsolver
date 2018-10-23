@@ -3,6 +3,7 @@ git# Created by .ignore support plugin (hsz.mobi)
 .gradle
 /build/
 
+__pycache__
 venv
 
 # Ignore Gradle GUI config

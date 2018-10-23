@@ -36,7 +36,6 @@ object WebServer {
             get("/") {
                 call.respondRedirect("/wizard")
             }
-
         }
     }
 }

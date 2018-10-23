@@ -18,6 +18,8 @@ repositories {
     maven { setUrl("https://kotlin.bintray.com/kotlinx") }
 }
 
+val jackson_version = "2.9.6"
+
 dependencies {
     compile("org.slf4j", "slf4j-log4j12", "1.7.25")
     compile("log4j", "log4j", "1.2.17")
@@ -29,6 +31,14 @@ dependencies {
     compile("io.ktor", "ktor-jackson", "0.9.5")
     compile("io.ktor", "ktor-locations", "0.9.5")
     compile("org.jetbrains.kotlinx", "kotlinx-html-jvm", "0.6.11")
+
+    compile("org.apache.httpcomponents", "httpclient", "4.5.6")
+
+    compile("com.fasterxml.jackson.core", "jackson-core", jackson_version)
+    compile("com.fasterxml.jackson.core", "jackson-databind", jackson_version)
+    compile("com.fasterxml.jackson.module", "jackson-module-kotlin", jackson_version)
+    compile("com.fasterxml.jackson.datatype", "jackson-datatype-joda", jackson_version)
+
 
     compile(kotlin("stdlib-jdk8"))
 }

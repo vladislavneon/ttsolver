@@ -81,6 +81,7 @@ fun BODY.wizardSteps(step: WizardStep) {
                                             name = step.fileName
                                             size = (30 * 1024 * 1024).toString()
                                             required = true
+                                            required = true
                                         }
                                     }, { submitButton("Save and next") })
                                 }
