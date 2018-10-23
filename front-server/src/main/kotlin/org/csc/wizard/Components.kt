@@ -1,6 +1,5 @@
 package org.csc.wizard
 
-import io.ktor.application.ApplicationCall
 import kotlinx.html.*
 import org.csc.html.*
 import org.csc.ml.Answer
