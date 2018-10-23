@@ -32,13 +32,18 @@ def get_tokenized_text_from_file(filename):
         text = ''.join(inf.readlines())
     return tokenize_text(text)
 
+def get_text_from_file(filename):
+    with open('ml-server/test_data/' + filename, 'r') as inf:
+        text = ''.join(inf.readlines())
+    return text
+
 def tokenize_string(qa):
     splitted_question = qa.strip().split()
     tokenized_question = []
     for token in splitted_question:
         token = token.lower()
         token = re.sub(r'\W', '', token)
-        if not token:
+        if len(token) < 3:
             continue
         tokenized_question.append(token)
     return tokenized_question

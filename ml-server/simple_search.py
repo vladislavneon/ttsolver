@@ -4,6 +4,7 @@ from normalizer import normalize_text, normalize_string
 
 chunk_size = 10
 multichoice_recall_threshold = 0.8
+singlechoice_recall_threshold = 0.2
 
 def count_recall(text_fragment, goal):
     n = len(goal)
@@ -29,15 +30,23 @@ def find_best_recall(text_with_lines, question, answer):
 def find_best_single_choice(text_with_lines, question, answers):
     best_recalls = [find_best_recall(text_with_lines, question, answer) for answer in answers]
     best_recalls = [(br[0], br[1], i) for i, br in enumerate(best_recalls)]
-    return sorted(best_recalls, reverse=True)[0]
-    #return best_recalls
+    best_recall, second_best_recall = sorted(best_recalls, reverse=True)[0:2]
+    return best_recall \
+        if best_recall[0] - second_best_recall[0] > singlechoice_recall_threshold else \
+        (0, best_recall[1], -1)
 
+
+def best_recalls(text_with_lines, question, answers):
+    best_recalls = [find_best_recall(text_with_lines, question, answer) for answer in answers]
+    best_recalls = [(br[0], br[1], i) for i, br in enumerate(best_recalls)]
+    return best_recalls
 
 def find_best_multi_choice(text_with_lines, question, answers):
     best_recalls = [find_best_recall(text_with_lines, question, answer) for answer in answers]
     best_recalls = [(br[0], br[1], i) for i, br in enumerate(best_recalls)]
     return list(filter(lambda x: x[0] > multichoice_recall_threshold, best_recalls))
 
+'''
 text_with_lines = normalize_text(get_tokenized_text_from_file('text2.txt'))
 #print(text_with_lines)
 question = normalize_string(tokenize_string('Основатель йоги?'))
@@ -51,3 +60,4 @@ print(find_best_single_choice(text_with_lines, question, answers))
 print(find_best_multi_choice(text_with_lines, question, answers))
 #print(len(text_with_lines))
 #print(find_best_recall(text_with_lines[:2000], question, answer))
+'''

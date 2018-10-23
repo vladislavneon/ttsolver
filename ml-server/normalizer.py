@@ -9,16 +9,18 @@ stemmer = Stemmer()
 def normalize_text(text):
     normalized_text = []
     for word, line in text:
-        word = morpher.parse(word)[0].normal_form
-        normalized_text.append((word, line))
+        if len(word) > 2:
+            word = morpher.parse(word)[0].normal_form
+            normalized_text.append((word, line))
     return normalized_text
 
 
 def stem_text(text):
     normalized_text = []
     for word, line in text:
-        word = stemmer.stem(word)
-        normalized_text.append((word, line))
+        if len(word) > 2:
+            word = stemmer.stem(word)
+            normalized_text.append((word, line))
     return normalized_text
 
 
