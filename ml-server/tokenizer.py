@@ -1,6 +1,7 @@
 import re
 import json
 
+
 def get_tokenized_text(text):
     text = text.split(sep='\n')
     text_with_lines = []
@@ -25,10 +26,12 @@ def get_tokenized_text(text):
         text_words_only.append((word.lower(), line_number))
     return text_words_only
 
+
 def get_tokenized_text_from_file(filename):
     with open('ml-server/test_data/' + filename, 'r') as inf:
         text = ''.join(inf.readlines())
     return get_tokenized_text(text)
+
 
 print(get_tokenized_text_from_file('text4.txt'))
 
