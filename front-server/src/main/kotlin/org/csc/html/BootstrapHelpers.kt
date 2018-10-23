@@ -57,6 +57,7 @@ fun FlowContent.submitButton(label: String) {
         }
     }
 }
+
 fun FlowContent.downloadButton(label: String, href: String) {
     button {
         classes = setOf("btn")
@@ -67,6 +68,16 @@ fun FlowContent.downloadButton(label: String, href: String) {
                 classes = setOf("download")
             }
             +label
+        }
+    }
+}
+
+fun FlowContent.textArea(name: String) {
+    div("form-group") {
+        textArea("form-control") {
+            style = "width:100%"
+            rows = "7"
+            this.name = name
         }
     }
 }

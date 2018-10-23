@@ -80,18 +80,11 @@ fun BODY.wizardSteps(session: UserSession, step: WizardStep) {
                             }
                         }
                         WizardStep.UploadTests -> {
-                            form("/wizard/uploadTest", method = FormMethod.post, encType = FormEncType.multipartFormData) {
+                            form("/wizard/uploadTest", method = FormMethod.post) {
                                 div("tab-content active") {
                                     stepBody("Upload JSON with test", step.ordinal == 1, {
                                         br()
-                                        fileInput {
-                                            style = "margin-top: 5px;"
-                                            name = step.fileName
-                                            size = (30 * 1024 * 1024).toString()
-                                            accept = ".json"
-                                            required = true
-                                            required = true
-                                        }
+                                        textArea("testData")
                                     }, { submitButton("Save and next") })
                                 }
                             }

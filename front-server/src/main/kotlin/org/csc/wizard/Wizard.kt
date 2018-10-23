@@ -1,7 +1,7 @@
 package org.csc.wizard
 
 import io.ktor.application.call
-import io.ktor.response.respondFile
+import io.ktor.request.receiveParameters
 import io.ktor.response.respondRedirect
 import io.ktor.routing.Routing
 import io.ktor.routing.get
@@ -14,6 +14,7 @@ import org.csc.ml.Question
 import org.csc.pdf.PDFRecognizer
 import org.csc.session.FileManager
 import org.csc.session.SessionManager
+import org.csc.utils.InputTestParser
 import org.csc.utils.Json
 import kotlin.reflect.KClass
 
@@ -57,7 +58,9 @@ fun Routing.wizardRouting() {
     }
     post("/wizard/uploadTest") {
         val session = SessionManager.getSession(call)
-        FileManager.createJsonFile(session.uuid, call.getFile("json").first)
+        val params = call.receiveParameters()
+        val questions = InputTestParser.parseInputTest(params["testData"]!!)
+        FileManager.createJsonFile(session.uuid, Json.writeValueAsString(questions).toByteArray())
         SessionManager.changeStep(call, session, WizardStep.Completed)
         call.respondRedirect("/wizard/result")
     }
