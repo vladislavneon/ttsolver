@@ -41,7 +41,7 @@ object WebServer {
             }
             get("/reset") {
                 SessionManager.resetSession(call)
-                SessionManager.changeStep(call, SessionManager.getSession(call), WizardStep.UploadPDF)
+                SessionManager.changeStep(call, SessionManager.getSession(call), WizardStep.UploadData)
 
                 call.respondRedirect("/wizard")
             }

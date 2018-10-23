@@ -53,7 +53,7 @@ tasks.withType<KotlinCompile> {
 
 idea {
     module {
-        excludeDirs = setOf(file(".idea"), file("gradle"), file(".gradle"))
+        excludeDirs = setOf(file(".idea"), file("gradle"), file(".gradle"), file("build"))
     }
 }
 

@@ -18,7 +18,7 @@ import org.csc.utils.Json
 import kotlin.reflect.KClass
 
 enum class WizardStep(val fileName: String) {
-    UploadPDF("pdf"),
+    UploadData("pdf"),
     UploadTests("json"),
     Completed("result");
 }
@@ -43,16 +43,21 @@ fun Routing.wizardRouting() {
             }
         }
     }
-    post("/wizard/uploadPDF") {
+    post("/wizard/uploadData") {
         val session = SessionManager.getSession(call)
-        val fileLocal = FileManager.createPdfRawFile(session.uuid, call.getFile("pdf"))
-        FileManager.createPdfTextFile(session.uuid, PDFRecognizer.recognize(fileLocal).toByteArray())
+        val (file, name) = call.getFile("pdf")
+        if (name.endsWith(".txt")) {
+            FileManager.createPdfTextFile(session.uuid, file)
+        } else {
+            val fileLocal = FileManager.createPdfRawFile(session.uuid, file)
+            FileManager.createPdfTextFile(session.uuid, PDFRecognizer.recognize(fileLocal).toByteArray())
+        }
         SessionManager.changeStep(call, session, WizardStep.UploadTests)
         call.respondRedirect("/wizard")
     }
     post("/wizard/uploadTest") {
         val session = SessionManager.getSession(call)
-        FileManager.createJsonFile(session.uuid, call.getFile("json"))
+        FileManager.createJsonFile(session.uuid, call.getFile("json").first)
         SessionManager.changeStep(call, session, WizardStep.Completed)
         call.respondRedirect("/wizard/result")
     }

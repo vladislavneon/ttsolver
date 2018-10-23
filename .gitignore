@@ -1,7 +1,7 @@
 git# Created by .ignore support plugin (hsz.mobi)
 ### Gradle template
 .gradle
-/build/
+**/build/
 
 __pycache__
 venv

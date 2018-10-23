@@ -15,7 +15,7 @@ object SessionManager {
     fun getSession(call: ApplicationCall): UserSession {
         var userSession = call.sessions.get<UserSession>()
         if (userSession == null) {
-            userSession = UserSession(UUID.randomUUID(), WizardStep.UploadPDF)
+            userSession = UserSession(UUID.randomUUID(), WizardStep.UploadData)
             call.sessions.set(userSession)
         }
         return userSession
@@ -27,7 +27,7 @@ object SessionManager {
 
     fun resetSession(call: ApplicationCall) {
         val session = getSession(call)
-        call.sessions.set(UserSession(session.uuid, WizardStep.UploadPDF))
+        call.sessions.set(UserSession(session.uuid, WizardStep.UploadData))
         FileManager.removePdfRawFile(session.uuid)
         FileManager.removePdfTextFile(session.uuid)
         FileManager.removeJsonFile(session.uuid)

@@ -2,8 +2,8 @@ from enum import Enum
 
 
 class QuestionType(Enum):
-    single = 1
-    multi = 2
+    single = 0
+    multi = 1
 
 
 class Question(object):
@@ -14,9 +14,9 @@ class Question(object):
 
 
 class AnswerVerdict(object):
-    ok = 1
-    found_area = 2
-    fail = 3
+    ok = 0
+    found_area = 1
+    fail = 2
 
 
 class Answer(object):

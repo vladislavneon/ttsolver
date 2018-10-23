@@ -21,10 +21,11 @@ suspend fun PipelineContext<Unit, ApplicationCall>.html(func: TagConsumer<String
     }
 }
 
-suspend fun ApplicationCall.getFile(name: String): ByteArray {
+suspend fun ApplicationCall.getFile(name: String): Pair<ByteArray, String> {
     val multipart = receiveMultipart()
     val parts = multipart.readAllParts()
-    val file = (parts.single { it.name == name && it is PartData.FileItem } as PartData.FileItem).streamProvider().readBytes()
+    val file = (parts.single { it.name == name && it is PartData.FileItem } as PartData.FileItem)
+    val bytes = file.streamProvider().readBytes()
     parts.forEach { it.dispose() }
-    return file
+    return bytes to (file.originalFileName ?: "")
 }

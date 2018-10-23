@@ -64,14 +64,15 @@ fun BODY.wizardSteps(session: UserSession, step: WizardStep) {
                     }
 
                     when (step) {
-                        WizardStep.UploadPDF -> {
-                            form("/wizard/uploadPDF", method = FormMethod.post, encType = FormEncType.multipartFormData) {
+                        WizardStep.UploadData -> {
+                            form("/wizard/uploadData", method = FormMethod.post, encType = FormEncType.multipartFormData) {
                                 div("tab-content") {
-                                    stepBody("Upload .PDF with data", step.ordinal == 0, {
+                                    stepBody("Upload .PDF or .TXT with data", step.ordinal == 0, {
                                         br()
                                         fileInput {
                                             name = step.fileName
                                             size = (30 * 1024 * 1024).toString()
+                                            accept = ".pdf, .txt"
                                             required = true
                                         }
                                     }, { submitButton("Save and next") })
@@ -83,13 +84,11 @@ fun BODY.wizardSteps(session: UserSession, step: WizardStep) {
                                 div("tab-content active") {
                                     stepBody("Upload JSON with test", step.ordinal == 1, {
                                         br()
-                                        textArea {
-                                            name = "testInputArea"
-                                        }
                                         fileInput {
                                             style = "margin-top: 5px;"
                                             name = step.fileName
                                             size = (30 * 1024 * 1024).toString()
+                                            accept = ".json"
                                             required = true
                                             required = true
                                         }
@@ -99,7 +98,6 @@ fun BODY.wizardSteps(session: UserSession, step: WizardStep) {
                         }
                         WizardStep.Completed -> {
                             stepBody("Results", step.ordinal == 2, { br() }, {
-//                                downloadButton("Download", "/wizard/result")
                                 val answers = Json.readCollectionValue(FileManager.getResultFile(session.uuid).readText(),
                                         List::class as KClass<List<Answer>>, Answer::class)
                                 val questions = Json.readCollectionValue(FileManager.getJsonFile(session.uuid).readText(),
@@ -118,47 +116,35 @@ fun BODY.wizardSteps(session: UserSession, step: WizardStep) {
 fun FlowContent.answers(answers: List<Answer>, question: List<Question>, text: String) {
 
     val textSplitted = text.split("\n")
-    container {
-        section {
-            for ((ind, answer) in answers.withIndex()) {
-                row {
-                    div("col-md-10") {
-                        div("article") {
-                            h3 {
-                                +"Question ${ind + 1}"
-                            }
-                            div("article-content") {
-                                p {
-                                    +"Question: "
-                                    +answer.question
-                                }
-                                p {
-                                    +"Answer: "
-                                }
-                                ul {
-                                    for ((indA, txt) in answer.answers.withIndex()) {
-                                        if (txt == "1") {
-                                            li {
-                                                +question[ind].options[indA]
-                                            }
-                                        }
-                                    }
-                                }
-
-                                if (textSplitted.size > answer.answer_area && answer.answer_area != 0 &&
-                                        textSplitted[answer.answer_area].isNotBlank()) {
-                                    p {
-                                        +"Because of: "
-                                    }
-                                    blockQuote("hero") {
-                                        +textSplitted[answer.answer_area]
-                                    }
-                                }
+    for ((ind, answer) in answers.withIndex()) {
+        div("article") {
+            h5 {
+                +"Q${ind + 1}. ${answer.question}"
+            }
+            div("article-content") {
+                p {
+                    +"Answers: "
+                }
+                ul {
+                    for ((indA, txt) in answer.answers.withIndex()) {
+                        if (txt == "1") {
+                            li {
+                                +question[ind].options[indA]
                             }
                         }
                     }
+                }
 
-
+                if (textSplitted.size > answer.answer_area && answer.answer_area != 0 &&
+                        textSplitted[answer.answer_area].isNotBlank()) {
+                    p {
+                        +"Because of: "
+                    }
+                    i {
+                        style = "font-size:14"
+                        +">  "
+                        +textSplitted[answer.answer_area]
+                    }
                 }
             }
         }
