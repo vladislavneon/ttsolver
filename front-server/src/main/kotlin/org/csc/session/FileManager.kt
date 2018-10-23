@@ -15,6 +15,9 @@ object FileManager {
     fun getJsonFile(uuid: UUID) = getFile(uuid, "json")
     fun createJsonFile(uuid: UUID, content: ByteArray) = createFile(uuid, "json", content)
 
+    fun getResultFile(uuid: UUID) = getFile(uuid, "res")
+    fun createResultFile(uuid: UUID, content: ByteArray) = createFile(uuid, "res", content)
+
     private fun getFile(uuid: UUID, type: String): File = File(tmpDir, "${uuid}_$type")
     private fun createFile(uuid: UUID, type: String, content: ByteArray): File = File(tmpDir, "${uuid}_$type").also {
         it.createNewFile()

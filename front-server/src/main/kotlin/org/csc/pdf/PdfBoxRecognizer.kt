@@ -11,16 +11,12 @@ object PdfBoxRecognizer : PDFRecognizer {
     override fun recognize(file: File): String {
         val parser = PDFParser(RandomAccessFile(file, "r"))
         parser.parse()
-        val result = PDFTextStripper().getText(PDDocument(parser.document))
-        print(result)
-        return result
+        return PDFTextStripper().getText(PDDocument(parser.document))
     }
 
     override fun recognize(content: ByteArray): String {
         val parser = PDFParser(RandomAccessBuffer(content))
         parser.parse()
-        val result = PDFTextStripper().getText(PDDocument(parser.document))
-        print(result)
-        return result
+        return PDFTextStripper().getText(PDDocument(parser.document))
     }
 }

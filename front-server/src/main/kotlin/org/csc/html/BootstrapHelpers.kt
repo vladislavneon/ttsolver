@@ -54,3 +54,16 @@ fun FlowContent.submitButton(label: String) {
         }
     }
 }
+fun FlowContent.downloadButton(label: String, href: String) {
+    button {
+        classes = setOf("btn")
+        a {
+            attributes["download"] = ""
+            this.href = href
+            i {
+                classes = setOf("download")
+            }
+            +label
+        }
+    }
+}

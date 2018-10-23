@@ -88,7 +88,9 @@ fun BODY.wizardSteps(step: WizardStep) {
                             }
                         }
                         WizardStep.Completed -> {
-                            +"Done!"
+                            stepBody("Download result", step.ordinal == 2, { br() }, {
+                                downloadButton("Download", "/wizard/result")
+                            })
                         }
                     }
                 }
