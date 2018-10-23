@@ -7,9 +7,9 @@ class QuestionType(Enum):
 
 
 class Question(object):
-    def __init__(self, question, type, options):
+    def __init__(self, question, question_type, options):
         self.question = question
-        self.type = type
+        self.question_type = question_type
         self.options = options
 
 

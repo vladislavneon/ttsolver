@@ -6,7 +6,7 @@ enum class QuestionType {
     multi
 }
 
-data class Question(val question: String, val type: QuestionType, val options: List<String>)
+data class Question(val question: String, val question_type: QuestionType, val options: List<String>)
 
 enum class AnswerVerdict {
     ok,
