@@ -88,6 +88,7 @@ fun BODY.wizardSteps(session: UserSession, step: WizardStep) {
                                             name = "testInputArea"
                                         }
                                         fileInput {
+                                            style = "margin-top: 5px;"
                                             name = step.fileName
                                             size = (30 * 1024 * 1024).toString()
                                             required = true
