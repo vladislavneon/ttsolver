@@ -138,13 +138,13 @@ fun FlowContent.answers(answers: List<Answer>, question: List<Question>, text: S
                             +"Because of: "
                         }
                         val to = min(answer.answer_area + 2, textSplitted.size - 1)
-                        for (i in answer.answer_area..to) {
-                            i {
-                                style = "font-size:14"
-                                +">  "
+                        blockQuote("hero") {
+                            style = "font-size:14"
+                            + "..."
+                            for (i in answer.answer_area..to) {
                                 +textSplitted[i]
                             }
-                            br
+                            + "..."
                         }
                     }
                     if (answer.verdict == AnswerVerdict.found_area) {
@@ -152,14 +152,14 @@ fun FlowContent.answers(answers: List<Answer>, question: List<Question>, text: S
                             +"Because of: "
                         }
                         val from = max(answer.answer_area - 1, 0)
-                        val to = min(answer.answer_area + 7, textSplitted.size - 1)
-                        for (i in answer.answer_area..to) {
-                            i {
-                                style = "font-size:14"
-                                +">  "
-                                +textSplitted[i]
+                        val to = min(answer.answer_area + 19, textSplitted.size - 1)
+                        blockQuote("hero") {
+                            style = "font-size:14"
+                            + "..."
+                            for (i in answer.answer_area..to) {
+                                    +textSplitted[i]
                             }
-                            br
+                            + "..."
                         }
                     }
                 }
