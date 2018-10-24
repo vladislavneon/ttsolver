@@ -166,7 +166,7 @@ fun FlowContent.answers(answers: List<Answer>, question: List<Question>, text: S
                         p {
                             +"Место в тексте: "
                         }
-                        val to = min(answer.answer_area + 2, textSplitted.size - 1)
+                        val to = min(answer.answer_area + 4, textSplitted.size - 1)
                         blockQuote("hero") {
                             style = "font-size:14"
                             + "..."
