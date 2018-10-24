@@ -30,15 +30,17 @@ resource "aws_lb_listener" "listener_443" {
   }
 }
 
-//Listener for 80 port of alb targeted at active target group arn of which is written in consul
-resource "aws_lb_listener" "listener_80" {
+resource "aws_lb_listener" "front_end" {
   load_balancer_arn = "${aws_lb.alb.arn}"
-  port = "80"
-  protocol = "HTTP"
+  port              = "80"
+  protocol          = "HTTP"
 
-  #should be changed to redirect by hands now, cause terraform not supports redirect for alb for now
   default_action {
-    target_group_arn = "${var.target_group_arn}"
-    type = "forward"
+    type = "redirect"
+    redirect {
+      port = "443"
+      protocol = "HTTPS"
+      status_code = "HTTP_301"
+    }
   }
 }

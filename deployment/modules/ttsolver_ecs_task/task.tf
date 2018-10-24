@@ -1,13 +1,13 @@
 resource "aws_ecs_task_definition" "default" {
   family = "${var.resource_prefix}-${var.internal_prefix}-task"
   task_role_arn = "${aws_iam_role.ecs_task_role.arn}"
+  network_mode = "host"
 
   container_definitions = <<DEFINITION
 [
     {
       "memory": 500,
       "essential": true,
-      "networkMode":"host",
       "portMappings": [
         {
           "containerPort": 8080,
@@ -42,7 +42,12 @@ resource "aws_ecs_task_definition" "default" {
     {
       "memory": 1400,
       "essential": true,
-      "networkMode":"host",
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "protocol": "tcp"
+        }
+      ],
       "name": "${var.resource_prefix}-${var.internal_prefix}-ml-servertask",
       "ulimits": [
         {

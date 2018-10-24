@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 
 
 object MlSolverServerConnector : MlSolver {
-    private val url = URL("http://localhost:5000/solve").toURI()
+    private val url = URL("http://127.0.0.1:5000/solve").toURI()
     private val client = HttpClientBuilder.create().build()
 
     override fun solve(text: String, questions: List<Question>): List<Answer> {

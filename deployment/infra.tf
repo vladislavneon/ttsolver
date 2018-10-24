@@ -1,7 +1,7 @@
 provider "aws" {
   region = "eu-west-1"
   profile = "sandbox-jetbrains"
-  version = "1.30.0"
+  version = "1.39.0"
 }
 
 terraform {
