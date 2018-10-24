@@ -85,7 +85,7 @@ fun BODY.wizardSteps(session: UserSession, step: WizardStep) {
                         WizardStep.UploadTests -> {
                             form("/wizard/uploadTest", method = FormMethod.post) {
                                 div("tab-content active") {
-                                    stepBody("Upload JSON with test", step.ordinal == 1, {
+                                    stepBody("Insert conditions of the test", step.ordinal == 1, {
                                         br()
                                         textArea("testData")
                                     }, { submitButton("Save and next") })
