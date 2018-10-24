@@ -10,6 +10,6 @@ a = solve(questions, text)
 
 answers_to_json(a, 'out1.json')
 
-#json_to_human('2_tests.json')
+json_to_human('1_tests.json')
 
 #export_tokenized_text('text2.txt')

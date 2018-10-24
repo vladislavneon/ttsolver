@@ -32,7 +32,11 @@ def json_to_human(filename):
         json_questions = json.load(inf)
         for q in json_questions:
             ouf.write('? ' + q["question"] + '\n')
+            if q["question_type"] == 'single':
+                sym = '! '
+            else:
+                sym = '+ '
             for o in q['options']:
-                ouf.write('! ' + o + '\n')
+                ouf.write(sym + o + '\n')
             ouf.write('\n')
 

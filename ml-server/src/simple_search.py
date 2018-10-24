@@ -15,7 +15,7 @@ def count_recall(text_fragment, goal):
             m += 1
     return m / n
 
-def find_best_recall(text_with_lines, question, answer, q_weight=1, chunk_size=50):
+def find_best_recall(text_with_lines, question, answer, q_weight=1, chunk_size=10):
     a_weight = 2 - q_weight
     best_recall = 0
     best_line_number = -1
@@ -47,11 +47,11 @@ def best_recalls(text_with_lines, question, answers):
     return best_recalls
 
 def find_best_multi_choice(text_with_lines, question, answers):
-    best_recalls = [find_best_recall(text_with_lines, question, answer, chunk_size=60) for answer in answers]
+    best_recalls = [find_best_recall(text_with_lines, question, answer, q_weight=1.2, chunk_size=50) for answer in answers]
     best_recalls = [(br[0], br[1], i) for i, br in enumerate(best_recalls)]
     return list(filter(lambda x: x[0] > multichoice_recall_threshold, best_recalls))
 
-def find_best_place(text_with_lines, question, answers, chunk_size=10):
+def find_best_place(text_with_lines, question, answers, chunk_size=30):
     question_summary = question
     for answer in answers:
         question_summary.extend(answer)

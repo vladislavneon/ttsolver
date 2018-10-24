@@ -14,7 +14,6 @@ def solve(questions, text):
     for question in questions:
         question_text = normalize_string(tokenize_string(question.question))
         question_answers = list(map(lambda x: normalize_string(tokenize_string(x)), question.options))
-        print(question_answers)
         if question.question_type == QuestionType.single:
             best_choice = find_best_single_choice(text_with_lines, question_text, question_answers)
             choices = [0] * len(question.options)
