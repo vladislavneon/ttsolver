@@ -86,6 +86,24 @@ fun BODY.wizardSteps(session: UserSession, step: WizardStep) {
                             form("/wizard/uploadTest", method = FormMethod.post) {
                                 div("tab-content active") {
                                     stepBody("Insert conditions of the test", step.ordinal == 1, {
+                                        div("popup") {
+                                            onClick = "myFunction()"
+                                            +"Формат ввода"
+                                            i(classes = "material-icons") {
+                                                style = "color: forestgreen;"
+                                                +"wb_incandescent"
+                                            }
+                                            span(classes = "popuptext") {
+                                                style = "margin-left: -154px;"
+                                                id = "myPopup"
+                                                +"Начните строку со знака '?', затем на той же строке введите вопрос. "
+                                                +"Далее введите возможные варианты ответов, по одному на каждой строчке "
+                                                +"Если вопрос заключается в выборе ровно 1 правильного ответа, начинайте каждую "
+                                                +"строку с вариантом ответа со знака '!'. "
+                                                +"Правильных ответов может быть любое количество, начинайте каждую строку "
+                                                +"с вариантом ответа со знака '+' "
+                                            }
+                                        }
                                         br()
                                         textArea("testData")
                                     }, { submitButton("Save and next") })

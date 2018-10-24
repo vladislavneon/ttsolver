@@ -10,6 +10,7 @@ fun HEAD.bootstrapLinks() {
         src = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
     }
     styleLink("https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css")
+    styleLink("https://fonts.googleapis.com/icon?family=Material+Icons")
 }
 
 fun SPAN.icon(name: String) {

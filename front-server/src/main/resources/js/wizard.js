@@ -34,3 +34,7 @@ function nextTab(elem) {
 function prevTab(elem) {
     $(elem).prev().find('a[data-toggle="tab"]').click();
 }
+
+function myFunction() {
+    var popup = document.getElementById("myPopup");popup.classList.toggle("show");
+}
