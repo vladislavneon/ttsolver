@@ -123,10 +123,9 @@ fun FlowContent.answers(answers: List<Answer>, question: List<Question>, text: S
                 }
                 ul {
                     for ((indA, txt) in answer.answers.withIndex()) {
-                        if (txt == "1") {
-                            li {
-                                +question[ind].options[indA]
-                            }
+                        li {
+                            style = "color: " + if (txt =="1") "green;" else "#e74c3c;"
+                            +question[ind].options[indA]
                         }
                     }
                 }
