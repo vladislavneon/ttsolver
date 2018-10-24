@@ -3,10 +3,13 @@ package org.csc.wizard
 import kotlinx.html.*
 import org.csc.html.*
 import org.csc.ml.Answer
+import org.csc.ml.AnswerVerdict
 import org.csc.ml.Question
 import org.csc.session.FileManager
 import org.csc.session.UserSession
 import org.csc.utils.Json
+import java.lang.Integer.max
+import java.lang.Integer.min
 import kotlin.reflect.KClass
 
 fun UL.stepHeader(label: String, shortLabel: String, iconName: String, stepNum: Int, isActive: Boolean) {
@@ -128,15 +131,36 @@ fun FlowContent.answers(answers: List<Answer>, question: List<Question>, text: S
                     }
                 }
 
-                if (textSplitted.size > answer.answer_area && answer.answer_area != 0 &&
+                if (textSplitted.size > answer.answer_area && answer.answer_area != -1 &&
                         textSplitted[answer.answer_area].isNotBlank()) {
-                    p {
-                        +"Because of: "
+                    if (answer.verdict == AnswerVerdict.ok) {
+                        p {
+                            +"Because of: "
+                        }
+                        val to = min(answer.answer_area + 2, textSplitted.size - 1)
+                        for (i in answer.answer_area..to) {
+                            i {
+                                style = "font-size:14"
+                                +">  "
+                                +textSplitted[i]
+                            }
+                            br
+                        }
                     }
-                    i {
-                        style = "font-size:14"
-                        +">  "
-                        +textSplitted[answer.answer_area]
+                    if (answer.verdict == AnswerVerdict.found_area) {
+                        p {
+                            +"Because of: "
+                        }
+                        val from = max(answer.answer_area - 1, 0)
+                        val to = min(answer.answer_area + 7, textSplitted.size - 1)
+                        for (i in answer.answer_area..to) {
+                            i {
+                                style = "font-size:14"
+                                +">  "
+                                +textSplitted[i]
+                            }
+                            br
+                        }
                     }
                 }
             }
