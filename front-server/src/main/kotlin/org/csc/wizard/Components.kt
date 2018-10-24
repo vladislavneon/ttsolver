@@ -113,42 +113,54 @@ fun FlowContent.answers(answers: List<Answer>, question: List<Question>, text: S
 
     val textSplitted = text.split("\n")
     for ((ind, answer) in answers.withIndex()) {
+        val isSingle = answer.answers.indexOf("1") == answer.answers.lastIndexOf("1") && answer.answers.indexOf("1") != -1
         div("article") {
             h5 {
-                +"Q${ind + 1}. ${answer.question}"
+                +"Вопрос ${ind + 1}. ${answer.question}"
+            }
+            h5 {
+                if (answer.verdict == AnswerVerdict.ok && isSingle) +"Мы нашли для Вас следующий ответ:" else {
+                    if (answer.verdict == AnswerVerdict.ok && !isSingle) {
+                        +"Мы нашли для Вас следующие ответы, но советуем прочитать приведённый ниже текст, чтобы убедиться в их достоверности:"
+                    } else {
+                        if (answer.verdict == AnswerVerdict.fail) +"Очень жаль! Нам не удалось определить верные ответы. Сорян :("
+                    }
+                }
             }
             div("article-content") {
                 p {
-                    +"Answers: "
+                    +"Варианты ответов: "
                 }
                 ul {
                     for ((indA, txt) in answer.answers.withIndex()) {
                         li {
-                            style = "color: " + if (answer.verdict != AnswerVerdict.ok) "yellow" else if (txt =="1") "green;" else "#e74c3c;"
+                            style = "color: " + if (answer.verdict != AnswerVerdict.ok) "darkgoldenrod" else if (txt =="1") "green;" else "#e74c3c;"
                             +question[ind].options[indA]
                         }
                     }
                 }
-
+                p {
+                    if (answer.verdict == AnswerVerdict.found_area) +"Мы не смогли определить, какие ответы верны, но полагаем, что ответ содержится в следующем фрагменте текста:"
+                }
                 if (textSplitted.size > answer.answer_area && answer.answer_area != -1 &&
                         textSplitted[answer.answer_area].isNotBlank()) {
-                    if (answer.verdict == AnswerVerdict.ok) {
+                    if (answer.verdict == AnswerVerdict.ok && isSingle) {
                         p {
-                            +"Because of: "
+                            +"Место в тексте: "
                         }
-                        val to = min(answer.answer_area + 2, textSplitted.size - 1)
+                        val to = min(answer.answer_area + 4, textSplitted.size - 1)
                         blockQuote("hero") {
                             style = "font-size:14"
                             + "..."
                             for (i in answer.answer_area..to) {
-                                +textSplitted[i]
+                                +(textSplitted[i] + " ")
                             }
                             + "..."
                         }
                     }
-                    if (answer.verdict == AnswerVerdict.found_area) {
+                    if (answer.verdict == AnswerVerdict.found_area || !isSingle && answer.verdict == AnswerVerdict.ok) {
                         p {
-                            +"Because of: "
+                            +"Место в тексте: "
                         }
                         val from = max(answer.answer_area - 1, 0)
                         val to = min(answer.answer_area + 19, textSplitted.size - 1)
@@ -156,7 +168,7 @@ fun FlowContent.answers(answers: List<Answer>, question: List<Question>, text: S
                             style = "font-size:14"
                             + "..."
                             for (i in answer.answer_area..to) {
-                                    +textSplitted[i]
+                                    +(textSplitted[i] + " ")
                             }
                             + "..."
                         }
