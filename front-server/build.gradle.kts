@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.dsl.Coroutines
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -7,6 +8,7 @@ version = "1.0-SNAPSHOT"
 plugins {
     idea apply true
     kotlin("jvm") version "1.2.71"
+    id("com.github.johnrengelman.shadow") version "2.0.3" apply true
 }
 
 repositories {
@@ -49,6 +51,14 @@ kotlin {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+tasks.withType<ShadowJar> {
+    classifier = ""
+    version = ""
+    manifest {
+        attributes(mapOf("Main-Class" to "org.csc.MainKt"))
+    }
 }
 
 idea {

@@ -3,7 +3,7 @@
     <option name="additionalOptions" value="" />
     <option name="application" value="" />
     <module name="ml-server" />
-    <option name="target" value="app" />
+    <option name="target" value="src.app" />
     <option name="targetType" value="PYTHON" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />

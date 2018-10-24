@@ -8,6 +8,7 @@ import io.ktor.http.content.resource
 import io.ktor.http.content.static
 import io.ktor.locations.Locations
 import io.ktor.response.respondRedirect
+import io.ktor.response.respondText
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import io.ktor.server.engine.embeddedServer
@@ -21,7 +22,7 @@ import org.csc.wizard.WizardStep
 import org.csc.wizard.wizardRouting
 
 object WebServer {
-    fun prepare(): NettyApplicationEngine = embeddedServer(Netty, 8081) {
+    fun prepare(): NettyApplicationEngine = embeddedServer(Netty, 8080) {
         install(DefaultHeaders)
         install(Locations)
         install(CORS) { anyHost() }
@@ -36,6 +37,9 @@ object WebServer {
                 resource("wizard.js", "/js/wizard.js")
             }
             wizardRouting()
+            get("/health") {
+                call.respondText("Ok")
+            }
             get("/") {
                 call.respondRedirect("/wizard")
             }
