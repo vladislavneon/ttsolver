@@ -3,7 +3,7 @@ from tokenizer import get_tokenized_text_from_file, tokenize_string
 from normalizer import normalize_text, normalize_string
 
 
-multichoice_recall_threshold = 0.7
+multichoice_recall_threshold = 0.3
 singlechoice_recall_threshold_delta = 0.05
 singlechoice_recall_threshold = 0.2
 
@@ -47,7 +47,7 @@ def best_recalls(text_with_lines, question, answers):
     return best_recalls
 
 def find_best_multi_choice(text_with_lines, question, answers):
-    best_recalls = [find_best_recall(text_with_lines, question, answer) for answer in answers]
+    best_recalls = [find_best_recall(text_with_lines, question, answer, chunk_size=60) for answer in answers]
     best_recalls = [(br[0], br[1], i) for i, br in enumerate(best_recalls)]
     return list(filter(lambda x: x[0] > multichoice_recall_threshold, best_recalls))
 

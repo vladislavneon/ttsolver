@@ -25,3 +25,14 @@ def export_tokenized_text(filename):
     with open('ml-server/test_data/' + filename + '.tkz', 'w') as ouf:
         for line in normalize_text(get_tokenized_text_from_file(filename)):
             ouf.write(str(line) + '\n')
+
+def json_to_human(filename):
+    with open('ml-server/test_data/' + filename, 'r') as inf, \
+            open('ml-server/test_data/' + filename + '.human', 'w') as ouf:
+        json_questions = json.load(inf)
+        for q in json_questions:
+            ouf.write('? ' + q["question"] + '\n')
+            for o in q['options']:
+                ouf.write('! ' + o + '\n')
+            ouf.write('\n')
+

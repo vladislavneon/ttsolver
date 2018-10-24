@@ -19,9 +19,9 @@ def solve(questions, text):
             best_choice = find_best_single_choice(text_with_lines, question_text, question_answers)
             choices = [0] * len(question.options)
             line_number = best_choice[1]
-            #choices = [(br[0], br[1]) for br in best_recalls(text_with_lines, question_text, question_answers)]
+            choices = [(br[0], br[1]) for br in best_recalls(text_with_lines, question_text, question_answers)]
             if best_choice[2] != -1:
-                choices[best_choice[2]] = 1
+                #choices[best_choice[2]] = 1
                 answers.append(Answer(question.question, AnswerVerdict.ok, question.options, choices, line_number))
             else:
                 best_place = find_best_place(text_with_lines, question_text, question_answers)[1]
@@ -35,7 +35,7 @@ def solve(questions, text):
             for choice in best_choices:
                 id = choice[2]
                 choices[id] = 1
-            #choices = [(br[0], br[1]) for br in best_recalls(text_with_lines, question_text, question_answers)]
+            choices = [(br[0], br[1]) for br in best_recalls(text_with_lines, question_text, question_answers)]
             best_place = find_best_place(text_with_lines, question_text, question_answers)[1]
             if best_choices:
                 answers.append(Answer(question.question, AnswerVerdict.ok, question.options, choices, best_place))
