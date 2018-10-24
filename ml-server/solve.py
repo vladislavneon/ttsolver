@@ -30,12 +30,13 @@ def solve(questions, text):
                 else:
                     answers.append(Answer(question.question, AnswerVerdict.fail, question.options, choices, -1))
         else:
-            best_choices = find_best_multi_choice(text_with_lines, question, answers)
+            best_choices = find_best_multi_choice(text_with_lines, question_text, question_answers)
             choices = [0] * len(question.options)
             for choice in best_choices:
                 id = choice[2]
                 choices[id] = 1
-            best_place = find_best_place(text_with_lines, question, answers)[1]
+            choices = [(br[0], br[1]) for br in best_recalls(text_with_lines, question_text, question_answers)]
+            best_place = find_best_place(text_with_lines, question_text, question_answers)[1]
             if best_choices:
                 answers.append(Answer(question.question, AnswerVerdict.ok, question.options, choices, best_place))
             elif best_place != -1:

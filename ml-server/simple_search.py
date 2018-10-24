@@ -2,8 +2,8 @@ import operator
 from tokenizer import get_tokenized_text_from_file, tokenize_string
 from normalizer import normalize_text, normalize_string
 
-chunk_size = 10
-multichoice_recall_threshold = 0.8
+chunk_size = 100
+multichoice_recall_threshold = 0.4
 singlechoice_recall_threshold = 0.2
 
 def count_recall(text_fragment, goal):
@@ -15,12 +15,15 @@ def count_recall(text_fragment, goal):
     return m / n
 
 def find_best_recall(text_with_lines, question, answer):
+    q_weight = 1 - 0.25
+    a_weight = 2 - q_weight
     best_recall = 0
     best_line_number = -1
     for i in range(len(text_with_lines) - chunk_size + 1):
         line_number = text_with_lines[i][1]
         text = list(map(operator.itemgetter(0), text_with_lines[i : i + chunk_size]))
-        recall = count_recall(set(text), set(question)) * count_recall(set(text), set(answer))
+        recall = \
+            ((count_recall(set(text), set(question)) ** q_weight) * (count_recall(set(text), set(answer)) ** a_weight)) ** 0.5
         if recall > best_recall:
             best_recall = recall
             best_line_number = line_number
