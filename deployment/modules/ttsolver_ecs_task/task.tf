@@ -66,7 +66,7 @@ resource "aws_ecs_task_definition" "default" {
             "awslogs-stream-prefix": "${var.resource_prefix}-${var.internal_prefix}-stream"
         }
       },
-      "cpu": 700
+      "cpu": 500
     }
   ]
 DEFINITION
